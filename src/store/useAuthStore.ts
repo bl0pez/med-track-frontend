@@ -8,6 +8,7 @@ export interface AuthState {
     user: User | null;
 
     login: (token: string, user: User) => void;
+    setRefreshToken: (token?: string, user?: User) => void;
     logout: () => void;
 }
 
@@ -20,6 +21,14 @@ const storeApi: StateCreator<AuthState> = (set) => ({
         set({ status: 'authenticated', token, user });
     },
     logout: () => set({ status: 'unauthenticated', token: null, user: null }),
+
+    setRefreshToken: (token, user) => {
+        if (!token || !user) {
+            return set({ status: 'unauthenticated', token: null, user: null });
+        }
+
+        set({ status: 'authenticated', token, user });
+    }
 });
 
 export const useAuthStore = create<AuthState>()(

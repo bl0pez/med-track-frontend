@@ -1,6 +1,7 @@
 export const apiUrl = {
     login: '/auth/login',
-    patient: '/patient'
+    patient: '/patient',
+    refreshToken: '/auth/refresh-token',
 }
 
 export const routes = {

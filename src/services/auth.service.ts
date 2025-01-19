@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { apiUrl } from "../config/routes.config"
 import { api } from "./api.service"
 import { LoginFormValues, LoginResponse } from '../interfaces'
@@ -15,5 +15,20 @@ export const useLogin = () => {
     return useMutation({
         mutationFn: login,
         mutationKey: ['login']
+    });
+}
+
+const refreshToken = async (): Promise<LoginResponse> => {
+    const { data } = await api.get(apiUrl.refreshToken)
+    return data;
+};
+
+export const useRefreshToken = () => {
+    return useQuery({
+        queryKey: ['refreshToken'],
+        queryFn: refreshToken,
+        staleTime: 1000 * 60 * 60,
+        enabled: false,
+        retry: false
     });
 }
