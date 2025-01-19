@@ -1,5 +1,6 @@
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
 import AppLayout from '../layouts/app.layout'
+import PatientPage from '../pages/Patient'
 
 export default function AppRoutes() {
   return (
@@ -7,7 +8,7 @@ export default function AppRoutes() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route path="/" element={<></>} />
+            <Route path="/patients" element={<PatientPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
         </Routes>

@@ -10,6 +10,7 @@ export default function AuthRoutes() {
           <Route path="login" element={<LoginPage />} />
           <Route path="*" element={<Navigate to='/login' /> } />
         </Route>
+        <Route path="*" element={<Navigate to='/auth/login' /> } />
       </Routes>
     </BrowserRouter>
   )
