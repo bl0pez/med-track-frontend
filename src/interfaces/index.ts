@@ -12,3 +12,13 @@ export interface User {
     updatedAt: Date;
     roles:     Role[];
 }
+
+export interface LoginFormValues {
+    email: string
+    password: string
+}
+
+export interface LoginResponse {
+    user: User
+    token: string
+}
