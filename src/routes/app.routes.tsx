@@ -1,4 +1,5 @@
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
+import 'dayjs/locale/es'
 import AppLayout from '../layouts/app.layout'
 import PatientPage from '../pages/Patient'
 
