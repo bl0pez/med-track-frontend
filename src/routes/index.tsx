@@ -14,13 +14,9 @@ export default function Navigation() {
     )
   }
 
-  if (authStatus === 'authenticated') {
-    return (
-      <AppRoutes />
-    );
-  }
-
   return (
-    <AuthRoutes />
+    <>
+      { (authStatus === 'authenticated') ? <AppRoutes /> : <AuthRoutes /> }
+    </>
   )
 }

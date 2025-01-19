@@ -8,6 +8,8 @@ import { tabsClasses } from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import MenuButton from './MenuButton';
+import SideMenuMobile from './SideMenuMobile';
 // import SideMenuMobile from './SideMenuMobile';
 // import MenuButton from './MenuButton';
 // import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
@@ -65,14 +67,14 @@ export default function AppNavbar() {
           >
             <CustomIcon />
             <Typography variant="h4" component="h1" sx={{ color: 'text.primary' }}>
-              Dashboard
+                MedTrack
             </Typography>
           </Stack>
           {/* <ColorModeIconDropdown /> */}
-          {/* <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
+          <MenuButton aria-label="menu" onClick={toggleDrawer(true)}>
             <MenuRoundedIcon />
           </MenuButton>
-          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} /> */}
+          <SideMenuMobile open={open} toggleDrawer={toggleDrawer} />
         </Stack>
       </Toolbar>
     </AppBar>

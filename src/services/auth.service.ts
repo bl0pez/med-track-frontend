@@ -3,11 +3,12 @@ import { apiUrl } from "../config/routes.config"
 import { api } from "./api.service"
 import { LoginFormValues, LoginResponse } from '../interfaces'
 
-const login = ({
+const login = async ({
     email,
     password
 }: LoginFormValues): Promise<LoginResponse> => {
-    return api.post(apiUrl.login, { email, password })
+    const { data } = await api.post(apiUrl.login, { email, password })
+    return data;
 }
 
 export const useLogin = () => {

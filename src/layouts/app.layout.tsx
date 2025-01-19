@@ -24,8 +24,6 @@ export default function AppLayout() {
             }}
           >
             <Outlet />
-            {/* <Header />
-            <MainGrid /> */}
           </Stack>
         </Box>
     </Box>

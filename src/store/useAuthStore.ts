@@ -16,7 +16,9 @@ const storeApi: StateCreator<AuthState> = (set) => ({
     token: null,
     user: null,
 
-    login: (token, user) => set({ status: 'authenticated', token, user }),
+    login: (token, user) => {
+        set({ status: 'authenticated', token, user });
+    },
     logout: () => set({ status: 'unauthenticated', token: null, user: null }),
 });
 
