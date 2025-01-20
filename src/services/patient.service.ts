@@ -9,20 +9,20 @@ import { isAxiosError } from "axios";
 
 interface PatientFilter {
     status?: PatientStatus
-    id?: number,
+    search?: string,
     page?: number,
     limit?: number,
 }
 
-const getPatients = async ({id, page, status, limit }: PatientFilter): Promise<PatientsResponse> => {
+const getPatients = async ({search, page, status, limit }: PatientFilter): Promise<PatientsResponse> => {
     const params = new URLSearchParams();
 
     if (status) {
         params.append('status', status);
     }
 
-    if (id) {
-        params.append('id', `${id}`);
+    if (search) {
+        params.append('search', `${search}`);
     }
 
     if (page) {
@@ -41,18 +41,18 @@ const getPatients = async ({id, page, status, limit }: PatientFilter): Promise<P
 }
 
 interface Props {
-    id?: number;
+    search?: string;
     status?: PatientStatus
     limit?: number;
 }
 
-export const usePatients = ({ id, status, limit }: Props) => {
+export const usePatients = ({ search, status, limit }: Props) => {
     
     const [page, setPage] = useState(1);
 
     const patientsQuery = useQuery({
-        queryKey: ['patient', { id, status, page, limit }],
-        queryFn: () => getPatients({ id, page, status, limit }),
+        queryKey: ['patient', { search, status, page, limit }],
+        queryFn: () => getPatients({ search, page, status, limit }),
         staleTime: 1000 * 60,
     });
 
