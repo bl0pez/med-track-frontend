@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, TableCell, TableRow, TextField, Typography } from "@mui/material";
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import PlusIcon from '@mui/icons-material/Add'
 import { useState } from "react";
@@ -6,6 +6,8 @@ import { usePatients } from "../services/patient.service";
 import { MainTable, MainTableBody, MainTableHead } from "../components/CustomTable";
 import { PatientStatus } from "../interfaces";
 import dayjs from "dayjs";
+import { usePatientModalStore } from "../store/usePatientModalStore";
+import PatientModal from "../components/PatientModal";
 
 const columns = [
     "ID",
@@ -16,11 +18,13 @@ const columns = [
 ]
 
 export default function PatientPage() {
-    const [limit, setLimit] = useState(5)
+    const [limit, setLimit] = useState(5);
 
     const { data, isLoading, refetch } = usePatients({
         limit: limit
     });
+
+    const handleOpen = usePatientModalStore(state => state.handleOpen);
 
     return (
         <Box sx={{ mb: 4, ml: 2, pt: 2 }} width={1}>
@@ -29,7 +33,6 @@ export default function PatientPage() {
                 <Box>
                     <Box sx={{ display: 'flex', gap: 2, marginTop: 2, marginBottom: 2, justifyContent: 'space-between' }}>
 
-                        {/* //Buscador */}
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             <TextField label="Buscar" variant="outlined" size="small" />
                             <Button size="small" variant="contained" onClick={() => refetch()} startIcon={<PersonSearchIcon />} >
@@ -38,16 +41,15 @@ export default function PatientPage() {
                         </Box>
 
                         <Button
-                            // onClick={() => {
-                            //   setCreateModal(true)
-                            //   setEditId(undefined)
-                            // }}
+                            onClick={() => handleOpen('add')}
                             size="small"
                             variant="contained"
                             startIcon={<PlusIcon />}
                         >
                             Agregar
                         </Button>
+
+
                     </Box>
                 </Box>
 
@@ -75,6 +77,9 @@ export default function PatientPage() {
                     </MainTableBody>
                 </MainTable>
             </Box>
+
+            <PatientModal />
+
         </Box>
     );
 }

@@ -23,6 +23,10 @@ export interface LoginResponse {
     token: string
 }
 
+export interface PatientFormValues {
+    name: string
+    rut: string    
+}
 export interface PatientsResponse {
     patients: Patient[];
     metadata: Metadata
