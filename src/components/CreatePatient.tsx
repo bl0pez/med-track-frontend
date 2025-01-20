@@ -4,11 +4,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { usePatientModalStore } from "../store/usePatientModalStore";
 import { Controller, useForm } from "react-hook-form";
 import { PatientFormValues } from "../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { patientSchema } from "../schemas";
+import { useCreatePatient } from "../services/patient.service";
 
 function formatearRUT(rut: string) {
   const rutLimpio = rut.replace(/[.\-\s]/g, '');
@@ -33,11 +33,10 @@ export default function CreatePatient() {
     }
   });
 
-  const handleClose = usePatientModalStore((state) => state.handleClose);
+  const { mutate: createPatient } = useCreatePatient();
 
   const onSubmit = (data: PatientFormValues) => {
-    console.log(data);
-    handleClose();
+    createPatient(data);
   };
 
   return (

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { apiUrl } from "../config/routes.config";
-import { PatientsResponse, PatientStatus } from "../interfaces";
+import { Patient, PatientFormValues, PatientsResponse, PatientStatus } from "../interfaces";
 import { api } from "./api.service";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { usePatientModalStore } from "../store/usePatientModalStore";
 
 interface PatientFilter {
     status?: PatientStatus
@@ -77,3 +79,30 @@ export const usePatients = ({ id, status, limit }: Props) => {
     }
 
 }
+
+const createPatient = async ({ name, rut }: PatientFormValues): Promise<Patient> => {
+    const { data } = await api.post(apiUrl.patient, { name, rut })
+    return data;
+}
+
+export const useCreatePatient = () => {
+
+    const queryClient = useQueryClient();
+    const handleClose = usePatientModalStore((state) => state.handleClose);
+
+    return useMutation({
+        mutationFn: createPatient,
+        mutationKey: ['createPatient'],
+        onSuccess: () => {
+            handleClose();
+            toast.success('Paciente creado correctamente');
+        },
+        onError: (error) => {
+            toast.error(error.message);
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['patient'] });
+        }
+    });
+}
+
