@@ -3,6 +3,7 @@ import { useRefreshToken } from "../services/auth.service";
 import { useAuthStore } from "../store/useAuthStore";
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
+import { Spinner } from "../components/Spinner";
 
 export default function Navigation() {
 
@@ -19,11 +20,7 @@ export default function Navigation() {
 
 
   if (authStatus === 'loading' || isPending) {
-    return (
-      <div>
-        Loading...
-      </div>
-    )
+    return (<Spinner />)
   }
 
   return (
