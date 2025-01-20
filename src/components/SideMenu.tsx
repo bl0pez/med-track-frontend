@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import MenuContent from './MenuContent';
+import { useAuthStore } from '../store/useAuthStore';
 // import SelectContent from './SelectContent';
 // import MenuContent from './MenuContent';
 // import CardAlert from './CardAlert';
@@ -25,6 +26,9 @@ const Drawer = styled(MuiDrawer)({
   });
 
   export default function SideMenu() {
+
+    const user = useAuthStore((state) => state.user);
+
     return (
       <Drawer
         variant="permanent"
@@ -70,16 +74,16 @@ const Drawer = styled(MuiDrawer)({
         >
           <Avatar
             sizes="small"
-            alt="Riley Carter"
+            alt={ user?.name }
             src="/static/images/avatar/7.jpg"
             sx={{ width: 36, height: 36 }}
           />
           <Box sx={{ mr: 'auto' }}>
             <Typography variant="body2" sx={{ fontWeight: 500, lineHeight: '16px' }}>
-              Riley Carter
+              { user?.name }
             </Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-              riley@email.com
+              { user?.email }
             </Typography>
           </Box>
           {/* <OptionsMenu /> */}
