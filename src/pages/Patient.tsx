@@ -3,7 +3,7 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import PlusIcon from '@mui/icons-material/Add'
 import { useState } from "react";
 import { usePatients } from "../services/patient.service";
-import { MainTable, MainTableBody, MainTableHead } from "../components/CustomTable";
+import { MainTable, MainTableBody, MainTableHead, MainTablePagination } from "../components/CustomTable";
 import { PatientStatus } from "../interfaces";
 import dayjs from "dayjs";
 import { usePatientModalStore } from "../store/usePatientModalStore";
@@ -27,11 +27,11 @@ export default function PatientPage() {
     const handleOpen = usePatientModalStore(state => state.handleOpen);
 
     return (
-        <Box sx={{ mb: 4, ml: 2, pt: 2 }} width={1}>
+        <Box sx={{ mb: 4, ml: 2, pt: 2 }}>
             <Typography variant="h4">Pacientes</Typography>
             <Box sx={{ mt: 4 }}>
                 <Box>
-                    <Box sx={{ display: 'flex', gap: 2, marginTop: 2, marginBottom: 2, justifyContent: 'space-between' }}>
+                    <Box sx={{ display: 'flex', gap: 2, marginTop: 2, marginBottom: 2, justifyContent: 'space-between', flexWrap: 'wrap' }}>
 
                         <Box sx={{ display: 'flex', gap: 2 }}>
                             <TextField label="Buscar" variant="outlined" size="small" />
@@ -61,7 +61,7 @@ export default function PatientPage() {
                         isLoading={isLoading}
                         text="No se encontraron pacientes"
                         colSpan={columns.length}
-                        itemsCount={data?.metadata.size!}
+                        itemsCount={data?.metadata.count}
                     >
                         {
                             data?.patients.map((patient) => (
@@ -76,6 +76,14 @@ export default function PatientPage() {
                         }
                     </MainTableBody>
                 </MainTable>
+
+                <MainTablePagination 
+                    itemCount={data?.metadata.count || 0}
+                    page={data?.metadata.currentPage || 1}
+                    limit={limit}
+                    handleChangeLimit={(value) => setLimit(value)}
+                    handleChangePage={() => {}}
+                />
             </Box>
 
             <PatientModal />

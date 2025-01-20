@@ -33,8 +33,8 @@ export interface PatientsResponse {
 }
 
 export enum PatientStatus {
-    ACTIVE = 'activo',
-    INACTIVE = 'inactivo',
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE',
 }
 
 export interface Patient {

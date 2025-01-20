@@ -5,6 +5,7 @@ import { api } from "./api.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { usePatientModalStore } from "../store/usePatientModalStore";
+import { isAxiosError } from "axios";
 
 interface PatientFilter {
     status?: PatientStatus
@@ -98,7 +99,11 @@ export const useCreatePatient = () => {
             toast.success('Paciente creado correctamente');
         },
         onError: (error) => {
-            toast.error(error.message);
+          if (isAxiosError(error)) {
+            return toast.error(error.response?.data.message);
+          }
+
+          toast.error("Ocurrió un error inesperado");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['patient'] });

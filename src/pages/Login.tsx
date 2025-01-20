@@ -39,7 +39,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Card sx={{ minWidth: 400, margin: "auto" }}>
+    <Card sx={{ margin: "auto", width: 400 }}>
       <CardContent>
         <Box
           component="form"

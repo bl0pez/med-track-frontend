@@ -40,7 +40,7 @@ export default function CreatePatient() {
   };
 
   return (
-    <Box width={500} p={4}>
+    <Box p={4} sx={{ width: 400 }}>
       <Typography variant="h5" component="div">
         Agregar Paciente
       </Typography>

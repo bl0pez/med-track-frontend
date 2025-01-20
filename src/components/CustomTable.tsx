@@ -8,26 +8,20 @@ interface MainTableProps {
 
 export const MainTable: FC<MainTableProps> = ({ children }) => {
     return (
-        <Paper
-            sx={{
-                boxShadow: "0px 5px 5px rgba(0,0,0,0.05)",
-                width: '100%',
-                overflow: 'hidden'
-            }}>
             <TableContainer
+                component={Paper}
                 sx={{
                     height: '400px',
-                    width: '100%',
                 }}
             >
                 <Table
                     stickyHeader
                     aria-label="sticky table"
+                    sx={{ minWidth: 500 }}
                 >
                     {children}
                 </Table>
             </TableContainer>
-        </Paper>
     );
 };
 
@@ -64,11 +58,11 @@ interface MainTableBodyProps {
     children: React.ReactNode;
     colSpan: number;
     isLoading: boolean;
-    itemsCount: number;
+    itemsCount?: number;
     text: string;
 }
 
-export const MainTableBody: FC<MainTableBodyProps> = ({ children, colSpan, isLoading, itemsCount, text }) => {
+export const MainTableBody: FC<MainTableBodyProps> = ({ children, colSpan, isLoading, itemsCount = 0, text }) => {
     if (isLoading) {
         return (
             <TableBody>
@@ -119,11 +113,14 @@ export const MainTablePagination: FC<MainTablePaginationProps> = ({
             10,
             25,
         ]}
+        labelRowsPerPage='Total por página'
         component="div"
         count={itemCount}
         onRowsPerPageChange={(e) => handleChangeLimit(parseInt(e.target.value, 10))}
         rowsPerPage={limit}
-        page={page}
+        page={page - 1}
+        variant="footer"
+        sx={{ backgroundColor: '#1E1E1E', borderTop: '1px solid #fff' }}
         onPageChange={(_, newPage) => handleChangePage(newPage)}
       />
     )
