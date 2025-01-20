@@ -6,18 +6,19 @@ import AuthRoutes from "./auth.routes";
 
 export default function Navigation() {
 
-  const { refetch, data } = useRefreshToken();
+  const { data, isPending } = useRefreshToken();
   const authStatus = useAuthStore(state => state.status);
   const refreshToken = useAuthStore(state => state.setRefreshToken);
 
   useEffect(() => {
-    refetch();
-    refreshToken(data?.token, data?.user);
-  }, [data, refreshToken, refetch]);
+    if (!isPending) {
+      refreshToken(data?.token, data?.user);
+    }
+  }, [data, refreshToken, isPending]);
  
 
 
-  if (authStatus === 'loading') {
+  if (authStatus === 'loading' || isPending) {
     return (
       <div>
         Loading...

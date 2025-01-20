@@ -19,7 +19,7 @@ export const useLogin = () => {
 }
 
 const refreshToken = async (): Promise<LoginResponse> => {
-    const { data } = await api.get(apiUrl.refreshToken)
+    const { data } = await api.get(apiUrl.refreshToken);
     return data;
 };
 
@@ -28,7 +28,6 @@ export const useRefreshToken = () => {
         queryKey: ['refreshToken'],
         queryFn: refreshToken,
         staleTime: 1000 * 60 * 60,
-        enabled: false,
         retry: false
     });
 }
