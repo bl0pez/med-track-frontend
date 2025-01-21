@@ -41,6 +41,7 @@ export const MainTableHead: FC<MainTableHeadProps> = ({ columns, roles }) => {
                             whiteSpace: "nowrap",
                             backgroundColor: "#1E1E1E",
                             minWidth: "150px",
+                            fontSize: { xs: "1rem", md: "1.5rem" },
                         }}
                     >
                         {Column}

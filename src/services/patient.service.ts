@@ -111,3 +111,17 @@ export const useCreatePatient = () => {
     });
 }
 
+const getPatient = async (id: string): Promise<Patient> => {
+    const { data } = await api.get<Patient>(`${apiUrl.patient}/${id}`);
+    console.log(data);
+    return data;
+}
+
+export const usePatient = (id: string) => {
+    return useQuery({
+        queryKey: ['patient', id],
+        queryFn: () => getPatient(id),
+        staleTime: 1000 * 60,
+    });
+}
+
