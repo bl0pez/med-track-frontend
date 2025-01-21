@@ -168,7 +168,7 @@ export const CardInfo = ({
 }: Props) => {
   return (
     <Grid size={{ xs: 12, md: 6, lg: 4 }}>
-      <Card>
+      <Card sx={{ height: '100%' }}>
         <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <Box
             component="div"
@@ -181,7 +181,6 @@ export const CardInfo = ({
               sx={{
                 height: { xs: 40, lg: 50 },
                 width: { xs: 40, lg: 50 },
-                // display: { xs: "none", lg: "inline-block" },
                 backgroundColor: "primary.main",
                 borderRadius: 2,
                 color: "primary.contrastText",
@@ -196,11 +195,11 @@ export const CardInfo = ({
               gap={1}
               // alignItems="center"
             >
-              <Typography fontSize={{ xs: "small", lg: "1.2rem" }} variant="h3">
+              <Typography fontSize={{ xs: "small", lg: "0.9rem" }} variant="h3">
                 {label}:
               </Typography>
 
-              <Typography fontSize={{ xs: "1.5rem", lg: "1.5rem" }} variant="h3">
+              <Typography fontSize={{ xs: "1.5rem", lg: "1.2rem"}}>
                 {type === "date"
                   ? dayjs(title).format("DD/MM/YYYY HH:mm")
                   : String(title)}

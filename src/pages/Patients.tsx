@@ -35,7 +35,7 @@ export default function PatientsPage() {
   const handleOpen = useModalStore((state) => state.handleOpen);
 
   return (
-    <Box sx={{ mb: 4, ml: 2, pt: 2 }}>
+    <Box>
       <Typography variant="h4">Pacientes</Typography>
       <Box sx={{ mt: 4 }}>
         <Box>
