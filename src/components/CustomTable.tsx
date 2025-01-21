@@ -92,18 +92,18 @@ export const MainTableBody: FC<MainTableBodyProps> = ({ children, colSpan, isLoa
 }
 
 interface MainTablePaginationProps {
-    itemCount: number;
+    itemCount?: number;
     handleChangeLimit: (limit: number) => void;
-    limit: number;
-    page: number;
+    limit?: number;
+    page?: number;
     handleChangePage: (page: number) => void;
 }
 
 export const MainTablePagination: FC<MainTablePaginationProps> = ({
-    itemCount,
+    itemCount = 0,
     handleChangeLimit,
-    limit,
-    page,
+    limit = 0,
+    page = 0,
     handleChangePage,
 }) => {
     return (

@@ -56,27 +56,14 @@ export const usePatients = ({ search, status, limit }: Props) => {
         staleTime: 1000 * 60,
     });
 
-    const nextPage = () => {
-        if (!patientsQuery.data?.metadata.nextPage) {
-            return;
-        }
-        
-        setPage(patientsQuery.data?.metadata.nextPage)
-    }
-
-    const prevPage = () => {
-        if (!patientsQuery.data?.metadata.prevPage) {
-            return;
-        }
-        
-        setPage(patientsQuery.data?.metadata.prevPage)
+    const handlePageChange = (page: number) => {
+        setPage(page);
     }
 
     return {
         ...patientsQuery,
         page,
-        nextPage,
-        prevPage,
+        handlePageChange
     }
 
 }

@@ -28,7 +28,7 @@ const columns = ["ID", "Rut", "Nombre", "Estado", "Ingreso", "Acciones"];
 export default function PatientsPage() {
   const [limit, setLimit] = useState(5);
 
-  const { data, isLoading, refetch } = usePatients({
+  const { data, isLoading, refetch, handlePageChange } = usePatients({
     limit: limit,
   });
 
@@ -81,7 +81,7 @@ export default function PatientsPage() {
             isLoading={isLoading}
             text="No se encontraron pacientes"
             colSpan={columns.length}
-            itemsCount={data?.metadata.count}
+            itemsCount={data?.metadata.totalRows}
           >
             {data?.patients.map((patient) => (
               <TableRow key={patient.id}>
@@ -107,11 +107,16 @@ export default function PatientsPage() {
         </MainTable>
 
         <MainTablePagination
-          itemCount={data?.metadata.size || 0}
-          page={data?.metadata.currentPage || 1}
+          itemCount={data?.metadata.totalRows}
+          page={data?.metadata.currentPage}
           limit={limit}
           handleChangeLimit={(value) => setLimit(value)}
-          handleChangePage={() => {}}
+          handleChangePage={(page) => {
+            console.log(page);
+            handlePageChange(page + 1);
+            refetch();
+          }}
+          
         />
       </Box>
     </Box>

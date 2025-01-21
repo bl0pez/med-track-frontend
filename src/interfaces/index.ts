@@ -86,13 +86,12 @@ export interface Patient {
 }
 
 export interface Metadata {
-    size: number;
-    count: number;
+    totalPages:  number;
     currentPage: number;
-    nextPage: number | null,
-    prevPage: number | null,
+    totalRows:   number;
+    nextPage:    number | null;
+    prevPage:    number | null;
 }
-
 export interface SystemMetrics {
     id:                      number;
     total_patients_active:   number;
