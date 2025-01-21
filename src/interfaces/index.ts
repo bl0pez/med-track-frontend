@@ -92,3 +92,14 @@ export interface Metadata {
     nextPage: number | null,
     prevPage: number | null,
 }
+
+export interface SystemMetrics {
+    id:                      number;
+    total_patients_active:   number;
+    total_patients_inactive: number;
+    total_tanks_delivered:   number;
+    total_tanks_returned:    number;
+    total_tanks_recharge:    number;
+    createdAt:               Date;
+    updatedAt:               Date;
+}

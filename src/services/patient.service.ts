@@ -107,6 +107,7 @@ export const useCreatePatient = () => {
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['patient'] });
+            queryClient.invalidateQueries({ queryKey: ['systemMetrics'] });
         }
     });
 }

@@ -38,7 +38,7 @@ export default function PatientPage() {
   const [limit, setLimit] = useState(5);
 
   const { data, isLoading, error } = usePatient(id!);
-  const { data: tanks, isLoading: isTanksLoafing, error: tanksError, refetch } = useSearchTanks(search, "patient", Number(id));
+  const { data: tanks, isLoading: isTanksLoafing, refetch } = useSearchTanks(search, "patient", Number(id));
 
   useEffect(() => {
     refetch();
@@ -145,7 +145,7 @@ export default function PatientPage() {
           itemCount={tanks?.metadata.size || 0}
           page={tanks?.metadata.currentPage || 1}
           limit={limit}
-          handleChangeLimit={() => {}}
+          handleChangeLimit={(value) => setLimit(value)}
           handleChangePage={() => {}}
         />
       </Box>

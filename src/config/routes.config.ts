@@ -4,6 +4,7 @@ export const apiUrl = {
     tank: '/tank',
     searchTank: '/tank/search',
     refreshToken: '/auth/refresh-token',
+    systemMetrics: '/system-metrics',
 }
 
 export const routes = {

@@ -9,7 +9,7 @@ export default function AppLayout() {
     <Stack direction="row">
         <SideMenu />
         <AppNavbar />
-        <Stack component={"main"} sx={{ mt: 8, maxWidth: "100%", width: "100%", padding: 4 }}>
+        <Stack component={"main"} sx={{ mt: { xs: 8, lg: 2 }, maxWidth: "100%", width: "100%", padding: 4 }}>
           <Outlet />
           <MainModal />
         </Stack>
