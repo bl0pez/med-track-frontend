@@ -1,7 +1,7 @@
 export enum Role {
-    ADMIN = 'administrador',
-    USER = 'usuario',
-    MAINTENANCE = 'Turno de mantención', 
+    ADMIN = 'ADMIN',
+    USER = 'USER',
+    MAINTENANCE = 'MAINTENANCE', 
 }
 
 export interface User {
