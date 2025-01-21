@@ -107,7 +107,7 @@ export default function PatientsPage() {
         </MainTable>
 
         <MainTablePagination
-          itemCount={data?.metadata.count || 0}
+          itemCount={data?.metadata.size || 0}
           page={data?.metadata.currentPage || 1}
           limit={limit}
           handleChangeLimit={(value) => setLimit(value)}
