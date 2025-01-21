@@ -112,7 +112,6 @@ export default function PatientsPage() {
           limit={limit}
           handleChangeLimit={(value) => setLimit(value)}
           handleChangePage={(page) => {
-            console.log(page);
             handlePageChange(page + 1);
             refetch();
           }}
