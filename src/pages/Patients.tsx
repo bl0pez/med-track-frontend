@@ -18,11 +18,10 @@ import {
 } from "../components/CustomTable";
 import { PatientStatus, Role } from "../interfaces";
 import dayjs from "dayjs";
-import { usePatientModalStore } from "../store/usePatientModalStore";
-import PatientModal from "../components/PatientModal";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from "react-router-dom";
 import { ProtectiveRoles } from "../components/ProtectiveRoles";
+import { useModalStore } from "../store/useModalStore";
 
 const columns = ["ID", "Rut", "Nombre", "Estado", "Ingreso", "Acciones"];
 
@@ -33,7 +32,7 @@ export default function PatientsPage() {
     limit: limit,
   });
 
-  const handleOpen = usePatientModalStore((state) => state.handleOpen);
+  const handleOpen = useModalStore((state) => state.handleOpen);
 
   return (
     <Box sx={{ mb: 4, ml: 2, pt: 2 }}>
@@ -115,8 +114,6 @@ export default function PatientsPage() {
           handleChangePage={() => {}}
         />
       </Box>
-
-      <PatientModal />
     </Box>
   );
 }

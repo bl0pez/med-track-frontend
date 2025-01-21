@@ -1,19 +1,19 @@
 import { create } from "zustand";
 import { Patient } from "../interfaces";
 
-type ModalView = 'add';
+type ModalView = 'add' | 'createTank';
 
 interface ModalState {
     show: boolean;
     view: ModalView | null;
 
     handleClose: () => void;
-    handleOpen: (view: ModalView) => void;
+    handleOpen: (view: ModalView, data?: any) => void;
 
-    data?: Patient | null;
+    data: any | null;
 }
 
-export const usePatientModalStore = create<ModalState>((set) => ({
+export const useModalStore = create<ModalState>((set) => ({
     show: false,
     view: null,
     data: null,

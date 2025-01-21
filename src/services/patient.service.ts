@@ -4,7 +4,7 @@ import { Patient, PatientFormValues, PatientsResponse, PatientStatus } from "../
 import { api } from "./api.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { usePatientModalStore } from "../store/usePatientModalStore";
+import { useModalStore } from "../store/useModalStore";
 import { isAxiosError } from "axios";
 
 interface PatientFilter {
@@ -89,7 +89,7 @@ const createPatient = async ({ name, rut }: PatientFormValues): Promise<Patient>
 export const useCreatePatient = () => {
 
     const queryClient = useQueryClient();
-    const handleClose = usePatientModalStore((state) => state.handleClose);
+    const handleClose = useModalStore((state) => state.handleClose);
 
     return useMutation({
         mutationFn: createPatient,

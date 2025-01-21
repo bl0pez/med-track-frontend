@@ -8,11 +8,13 @@ import {
   Card,
   CardContent,
   SvgIconProps,
+  TableCell,
+  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { PatientStatus, Role } from "../interfaces";
+import { PatientStatus, Role, TankStatus } from "../interfaces";
 import InfoIcon from "@mui/icons-material/Info";
 import dayjs from "dayjs";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
@@ -21,17 +23,26 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Grid from "@mui/material/Grid2";
 import { ProtectiveRoles } from "../components/ProtectiveRoles";
 import { MainTable, MainTableBody, MainTableHead, MainTablePagination } from "../components/CustomTable";
+import { useModalStore } from "../store/useModalStore";
+import { useSearchTanks } from "../services/tank.service";
+import { useEffect, useState } from "react";
+import { tankCapacity, tankStatus } from "../helpers";
 
-const columns = ["Number", "Retirado", "Devuelto"];
+const columns = ["N° Tanque", "Creación", "Devolución", "status", "m2"];
 
 export default function PatientPage() {
   const { id } = useParams();
+  const handleOpen = useModalStore((state) => state.handleOpen);
+
+  const [search, setSearch] = useState("");
+  const [limit, setLimit] = useState(5);
 
   const { data, isLoading, error } = usePatient(id!);
+  const { data: tanks, isLoading: isTanksLoafing, error: tanksError, refetch } = useSearchTanks(search, "patient", Number(id));
 
-  if (!id) {
-    return <Navigate to={routes.patients} />;
-  }
+  useEffect(() => {
+    refetch();
+  }, [search, refetch]);
 
   if (isLoading) {
     return <Spinner />;
@@ -89,20 +100,12 @@ export default function PatientPage() {
             }}
           >
             <Box sx={{ display: "flex", gap: 2 }}>
-              <TextField label="Buscar" variant="outlined" size="small" />
-              <Button
-                size="small"
-                variant="contained"
-                // onClick={() => refetch()}
-                // startIcon={<PersonSearchIcon />}
-              >
-                Buscar
-              </Button>
+              <TextField label="Buscar" variant="outlined" size="small" onChange={(e) => setSearch(e.target.value)} />
             </Box>
 
             <ProtectiveRoles roles={[Role.ADMIN, Role.MAINTENANCE]}>
             <Button
-              // onClick={() => handleOpen("add")}
+              onClick={() => handleOpen("createTank")}
               size="small"
               variant="contained"
               // startIcon={<PlusIcon />}
@@ -117,23 +120,31 @@ export default function PatientPage() {
           <MainTableHead columns={columns} />
 
           <MainTableBody
-            isLoading={isLoading}
+            isLoading={isTanksLoafing}
             text="No se encontraron pacientes"
             colSpan={columns.length}
-            itemsCount={0}
+            itemsCount={tanks?.metadata.size || 0}
           >
             {
-              [].map(() => (
-                <></>
+              tanks
+              ? tanks.tanks.map((tank) => (
+                <TableRow key={tank.id}>
+                  <TableCell>{tank.number_tank}</TableCell>
+                  <TableCell>{dayjs(tank.createdAt).format("DD/MM/YYYY HH:mm")}</TableCell>
+                  <TableCell>{tank.returnedAt ? dayjs(tank.returnedAt).format("DD/MM/YYYY HH:mm") : "-"}</TableCell>
+                  <TableCell>{tankStatus[tank.status]}</TableCell>
+                  <TableCell>{tankCapacity[tank.capacity]}</TableCell>
+                </TableRow>
               ))
+              : null
             }
           </MainTableBody>
         </MainTable>
 
         <MainTablePagination
-          itemCount={0}
-          page={1}
-          limit={0}
+          itemCount={tanks?.metadata.size || 0}
+          page={tanks?.metadata.currentPage || 1}
+          limit={limit}
           handleChangeLimit={() => {}}
           handleChangePage={() => {}}
         />

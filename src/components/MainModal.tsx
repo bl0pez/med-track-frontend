@@ -1,6 +1,7 @@
 import { Box, Modal } from "@mui/material";
-import { usePatientModalStore } from "../store/usePatientModalStore";
 import CreatePatient from "./CreatePatient";
+import { useModalStore } from "../store/useModalStore";
+import CreateTankModal from "./CreateTankModal";
 
 const style = {
   position: "absolute",
@@ -13,11 +14,10 @@ const style = {
   boxShadow: 24,
 };
 
-export default function PatientModal() {
-  const show = usePatientModalStore((state) => state.show);
-  const handleClose = usePatientModalStore((state) => state.handleClose);
-  const view = usePatientModalStore((state) => state.view);
-//   const data = usePatientModalStore((state) => state.data);
+export default function MainModal() {
+  const show = useModalStore((state) => state.show);
+  const handleClose = useModalStore((state) => state.handleClose);
+  const view = useModalStore((state) => state.view);
 
   return (
     <Modal
@@ -27,7 +27,10 @@ export default function PatientModal() {
       aria-labelledby="keep-mounted-modal-title"
       aria-describedby="keep-mounted-modal-description"
     >
-      <Box sx={style}>{view === "add" && <CreatePatient />}</Box>
+      <Box sx={style}>
+        {view === "add" && <CreatePatient />}
+        {view === "createTank" && <CreateTankModal />}
+      </Box>
     </Modal>
   );
 }

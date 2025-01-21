@@ -4,6 +4,24 @@ export enum Role {
     MAINTENANCE = 'MAINTENANCE', 
 }
 
+export enum TankStatus {
+    DELIVERED = 'DELIVERED',
+    RETURNED = 'RETURNED',
+    RECHARGE = 'RECHARGE',
+}
+
+export enum TankCapacity {
+    SIX_M2 = "SIX_M2",
+    TEN_M2 = "TEN_M2",
+    THREE_M3 = "THREE_M3",
+}
+
+export enum TankRequestType {
+    PATIENT = "PATIENT",
+    SERVICE = "SERVICE",
+    EXTERNAL = "EXTERNAL",
+}
+
 export interface User {
     id:        number;
     email:     string;
@@ -23,6 +41,11 @@ export interface LoginResponse {
     token: string
 }
 
+export interface TanksSearchResponse {
+    tanks: Tank[];
+    metadata: Metadata
+}
+
 export interface PatientFormValues {
     name: string
     rut: string    
@@ -31,6 +54,21 @@ export interface PatientsResponse {
     patients: Patient[];
     metadata: Metadata
 }
+export interface Tank {
+    id:           number;
+    number_tank:  string;
+    request_type: TankRequestType;
+    capacity:     TankCapacity;
+    status:       TankStatus;
+    patient_id:   number | null;
+    service_id:   number | null;    
+    external_id:  number | null;
+    deliveredAt:  Date;
+    returnedAt:   Date | null;
+    createdAt:    Date;
+    updatedAt:    Date;
+}
+
 
 export enum PatientStatus {
     ACTIVE = 'ACTIVE',
@@ -44,6 +82,7 @@ export interface Patient {
     status:    PatientStatus;
     createdAt: Date;
     updatedAt: Date;
+    tanks?:     Tank[];
 }
 
 export interface Metadata {

@@ -9,3 +9,5 @@ export const patientSchema = yup.object().shape({
     name: yup.string().required('El nombre es requerido').min(3, 'El nombre debe tener al menos 3 caracteres'),
     rut: yup.string().matches(/^(\d{1,3}(\.?\d{3}){2}-[\dkK])$/, { message: 'El rut no es válido' }).required('El rut es requerido'),
 });
+
+export const tankSchema = yup.object().shape({});
