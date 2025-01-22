@@ -2,6 +2,7 @@ import { Box, Modal } from "@mui/material";
 import CreatePatient from "./CreatePatient";
 import { useModalStore } from "../store/useModalStore";
 import CreateTankModal from "./CreateTankModal";
+import BarcodeScanner from "./BarcodeScanner";
 
 const style = {
   position: "absolute",
@@ -30,6 +31,7 @@ export default function MainModal() {
       <Box sx={style}>
         {view === "add" && <CreatePatient />}
         {view === "createTank" && <CreateTankModal />}
+        {view === "barcodeScanner" && <BarcodeScanner />}
       </Box>
     </Modal>
   );

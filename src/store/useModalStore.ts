@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { Patient } from "../interfaces";
 
-type ModalView = 'add' | 'createTank';
+type ModalView = 'add' | 'createTank' | 'barcodeScanner';
 
 interface ModalState {
     show: boolean;

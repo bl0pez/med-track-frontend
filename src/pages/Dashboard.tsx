@@ -1,21 +1,27 @@
 import Grid from "@mui/material/Grid2";
 import { useSystemMetrics } from "../services/system-metrics.service";
 import { Spinner } from "../components/Spinner";
-import { Card, CardContent, SvgIconProps, Typography } from "@mui/material";
+import { Button, Card, CardContent, SvgIconProps, Typography } from "@mui/material";
 import PropaneTankIcon from '@mui/icons-material/PropaneTank';
 import { FC } from "react";
 import GroupIcon from '@mui/icons-material/Group';
 import dayjs from "dayjs";
+import { useModalStore } from "../store/useModalStore";
 
 export default function DashboardPage() {
 
   const { data, isLoading } = useSystemMetrics();
+  const handleOpen = useModalStore((state) => state.handleOpen);
 
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
+    <>
+    <Button onClick={() => handleOpen('barcodeScanner')} variant="contained" color="primary" size="large" sx={{ margin: '20px' }}>
+      Escanear código de barras  
+    </Button> 
     <Grid container spacing={2} columns={12}>
       {
         data?.map((metric) => (
@@ -75,6 +81,7 @@ export default function DashboardPage() {
         ))
       }
     </Grid>
+    </>
   );
 }
 
