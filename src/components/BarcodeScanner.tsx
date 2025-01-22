@@ -16,17 +16,20 @@ export default function BarcodeScanner() {
     paused: paused,
   });
 
-  //   async function approveOrderItem() {
-
-  //   }
+    async function approveOrderItem() {
+        setResult('');
+        setPaused(false);
+    }
 
   return (
-    <Box>
-      <video ref={ref} style={{ width: "100%", height: "100%" }} />
+    <Box width={1} display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" sx={{ height: '500px'}}>
+      <video ref={ref} />
 
       <Box>
         <Typography variant="h6">Result: {result}</Typography>
-        <Button onClick={() => setPaused(!paused)}>Pause</Button>
+        <Button onClick={approveOrderItem} variant="contained" color="primary" size="large" sx={{ margin: '20px' }}>
+          Escanear código de barras
+        </Button>
       </Box>
     </Box>
   );
