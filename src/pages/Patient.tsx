@@ -123,7 +123,7 @@ export default function PatientPage() {
             isLoading={isTanksLoafing}
             text="No se encontraron pacientes"
             colSpan={columns.length}
-            itemsCount={tanks?.metadata.size || 0}
+            itemsCount={tanks?.metadata.totalRows}
           >
             {
               tanks
@@ -142,8 +142,8 @@ export default function PatientPage() {
         </MainTable>
 
         <MainTablePagination
-          itemCount={tanks?.metadata.size || 0}
-          page={tanks?.metadata.currentPage || 1}
+          itemCount={tanks?.metadata.totalRows}
+          page={tanks?.metadata.currentPage}
           limit={limit}
           handleChangeLimit={(value) => setLimit(value)}
           handleChangePage={() => {}}
