@@ -1,6 +1,5 @@
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { usePatient } from "../services/patient.service";
-import { routes } from "../config/routes.config";
 import { Spinner } from "../components/Spinner";
 import {
   Box,
@@ -14,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { PatientStatus, Role, TankStatus } from "../interfaces";
+import { PatientStatus, Role } from "../interfaces";
 import InfoIcon from "@mui/icons-material/Info";
 import dayjs from "dayjs";
 import Grid3x3Icon from "@mui/icons-material/Grid3x3";
