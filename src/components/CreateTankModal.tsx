@@ -1,7 +1,5 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Box, Button, Typography } from "@mui/material";
 import Co2Icon from '@mui/icons-material/Co2';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 
 export default function CreateTankModal() {
