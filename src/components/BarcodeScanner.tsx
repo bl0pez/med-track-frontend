@@ -52,7 +52,8 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
   }
 
   const { ref } = useZxing({
-    onDecodeResult(result) {
+    onDecodeResult({ getText }) {
+      setResult(getText());
       handleSearch();
     },
     paused: paused,
