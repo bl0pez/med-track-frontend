@@ -102,3 +102,38 @@ export interface SystemMetrics {
     createdAt:               Date;
     updatedAt:               Date;
 }
+
+export interface SearchTankByCodeResponse {
+    id:           number;
+    number_tank:  string;
+    request_type: string;
+    capacity:     string;
+    status:       string;
+    patient_id:   number;
+    service_id:   null;
+    external_id:  null;
+    deliveredAt:  Date;
+    returnedAt:   null;
+    createdAt:    Date;
+    updatedAt:    Date;
+    patient:      Patient | null;
+    service:      Service | null;
+}
+
+export interface Service {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface Patient {
+    id:        number;
+    name:      string;
+    rut:       string;
+    status:    PatientStatus;
+    createdAt: Date;
+    updatedAt: Date;
+    tanks?:     Tank[];
+}
+
