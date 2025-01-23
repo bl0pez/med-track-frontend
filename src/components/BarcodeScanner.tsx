@@ -53,9 +53,7 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
 
   const { ref } = useZxing({
     onDecodeResult(result) {
-      console.log(result);
-      setResult(result.getText());
-      setPaused(true);
+      handleSearch();
     },
     paused: paused,
   });
@@ -80,7 +78,13 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
     <Card sx={{ width: 400, minHeight: 350 }}>
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {action === "barcode" ? (
-          <video ref={ref} />
+          <Box sx={{ height: 100 }}>
+            <video ref={ref} style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }} />
+          </Box>
         ) : (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <TextField
