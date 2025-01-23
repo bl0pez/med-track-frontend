@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useZxing } from "react-zxing";
 import { useCloseTank, useSearchTankByCode } from "../services/tank.service";
 import AnnouncementIcon from '@mui/icons-material/Announcement';
+import { toast } from "react-toastify";
 
 type Action = "barcode" | "manual";
 
@@ -53,8 +54,12 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
 
   const { ref } = useZxing({
     onDecodeResult({ getText }) {
+      toast.success("Código de barras escaneado correctamente");
       setResult(getText());
       handleSearch();
+    },
+    constraints: {
+      video: { height: 350, width: 400, frameRate: 30 },
     },
     paused: paused,
   });
@@ -79,11 +84,21 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
     <Card sx={{ width: 400, minHeight: 350 }}>
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         {action === "barcode" ? (
-            <video ref={ref} style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }} />
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+            <video ref={ref} style={{ width: '100%' }} />
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: '60%',
+                height: '30%',
+                border: '2px solid red',
+                transform: 'translate(-50%, -50%)',
+                pointerEvents: 'none',
+              }}
+            />
+          </div>
         ) : (
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <TextField
