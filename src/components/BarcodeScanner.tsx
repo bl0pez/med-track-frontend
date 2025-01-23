@@ -58,9 +58,6 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
       setResult(getText());
       handleSearch();
     },
-    constraints: {
-      video: { height: 350, width: 400, frameRate: 30 },
-    },
     paused: paused,
   });
 
