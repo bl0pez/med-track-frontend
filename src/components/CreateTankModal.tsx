@@ -21,9 +21,11 @@ import { tankCapacity } from "../helpers";
 import { useModalStore } from "../store/useModalStore";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { tankPatientSchema } from "../schemas";
+import { useCreateTank } from "../services/tank.service";
 
 export default function CreateTankModal() {
   const data: number = useModalStore((state) => state.data);
+  const { mutate: createTank, isPending } = useCreateTank();
 
   const { control, handleSubmit } = useForm<TankRegisterFormValues>({
     resolver: yupResolver(tankPatientSchema),
@@ -37,7 +39,7 @@ export default function CreateTankModal() {
   });
 
   const onSubmit = (data: TankRegisterFormValues) => {
-    console.log(data);
+    createTank(data);
   };
 
   return (
@@ -156,7 +158,14 @@ export default function CreateTankModal() {
           )}
         /> */}
 
-        <Button type="submit" variant="contained" color="primary" size="large">
+        <Button
+          loading={isPending}
+          disabled={isPending}
+          type="submit"
+          variant="contained"
+          color="primary"
+          size="large"
+        >
           Agregar
         </Button>
       </Box>
