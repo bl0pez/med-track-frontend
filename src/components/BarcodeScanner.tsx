@@ -54,6 +54,7 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
   const { ref } = useZxing({
     onDecodeResult({ getText }) {
       setResult(getText());
+      setPaused(true);
       nextStep();
     },
     paused: paused,
