@@ -11,8 +11,8 @@ export enum TankStatus {
 }
 
 export enum TankCapacity {
-    SIX_M2 = "SIX_M2",
-    TEN_M2 = "TEN_M2",
+    SIX_M3 = "SIX_M3",
+    TEN_M3 = "TEN_M3",
     THREE_M3 = "THREE_M3",
 }
 
@@ -34,6 +34,16 @@ export interface User {
 export interface LoginFormValues {
     email: string
     password: string
+}
+
+export interface TankRegisterFormValues {
+    number_tank?: string;
+    request_type: TankRequestType;
+    capacity: TankCapacity;
+    status: TankStatus;
+    patient_id?: number | null;
+    service_id?: number | null;
+    external_id?: number | null;       
 }
 
 export interface LoginResponse {

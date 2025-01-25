@@ -27,7 +27,7 @@ import { useSearchTanks } from "../services/tank.service";
 import { useEffect, useState } from "react";
 import { tankCapacity, tankStatus } from "../helpers";
 
-const columns = ["N° Tanque", "Creación", "Devolución", "status", "m2"];
+const columns = ["N° Tanque", "Creación", "Devolución", "status", "Capacidad"];
 
 export default function PatientPage() {
   const { id } = useParams();
@@ -104,7 +104,9 @@ export default function PatientPage() {
 
             <ProtectiveRoles roles={[Role.ADMIN, Role.MAINTENANCE]}>
             <Button
-              onClick={() => handleOpen("createTank")}
+              onClick={() => {
+                handleOpen("createTank", data.id)}
+              }
               size="small"
               variant="contained"
               // startIcon={<PlusIcon />}
