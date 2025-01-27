@@ -1,6 +1,6 @@
 export const apiUrl = {
     login: '/auth/login',
-    patient: '/patient',
+    patients: '/patients',
     tank: '/tank',
     searchTank: '/tank/search',
     searchTankByCode: '/tank/code',

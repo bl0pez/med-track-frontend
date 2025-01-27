@@ -50,10 +50,6 @@ export interface PatientFormValues {
     name: string
     rut: string    
 }
-export interface PatientsResponse {
-    patients: Patient[];
-    metadata: Metadata
-}
 export interface Tank {
     id:           number;
     number_tank:  string;
@@ -127,13 +123,36 @@ export interface Service {
     updatedAt: Date;
 }
 
-export interface Patient {
-    id:        number;
-    name:      string;
-    rut:       string;
-    status:    PatientStatus;
-    createdAt: Date;
-    updatedAt: Date;
-    tanks?:     Tank[];
+
+export interface PatientsResponse {
+    patients:     Patient[];
+    metadata: Metadata;
 }
 
+export interface Patient {
+    id:          number;
+    name:        string;
+    rut:         string;
+    status:      PatientStatus;
+    createdBy:   number;
+    closedBy:    null;
+    closedAt:    null;
+    createdAt:   Date;
+    updatedAt:   Date;
+    createdUser: CreatedUser;
+}
+
+export interface CreatedUser {
+    id:   number;
+    name: string;
+}
+
+export interface Metadata {
+    totalPages:         number;
+    totalFilteredPages: number;
+    currentPage:        number;
+    totalRows:          number;
+    totalItems:         number;
+    nextPage:           null | number;
+    prevPage:           null | number;
+}

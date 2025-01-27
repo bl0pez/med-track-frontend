@@ -22,8 +22,9 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Link } from "react-router-dom";
 import { ProtectiveRoles } from "../components/ProtectiveRoles";
 import { useModalStore } from "../store/useModalStore";
+import { ExpandingRow } from "../components/ExpandingRow";
 
-const columns = ["ID", "Rut", "Nombre", "Estado", "Ingreso", "Acciones"];
+const columns = ["ID", "Nombre", "Estado", "Ingreso", "Acciones"];
 
 export default function PatientsPage() {
   const [limit, setLimit] = useState(5);
@@ -85,7 +86,7 @@ export default function PatientsPage() {
           >
             {data?.patients.map((patient) => (
               <TableRow key={patient.id}>
-                <TableCell>{patient.id}</TableCell>
+                {/* <TableCell>{patient.id}</TableCell>
                 <TableCell>{patient.rut}</TableCell>
                 <TableCell>{patient.name}</TableCell>
                 <TableCell>
@@ -96,17 +97,23 @@ export default function PatientsPage() {
                 <TableCell>
                   {dayjs(patient.createdAt).format("DD/MM/YYYY")}
                 </TableCell>
+                <TableCell>{patient.createdUser.name}</TableCell>
+                <TableCell>
+                  {patient.closedBy ? patient.closedBy : "N/A"}
+                </TableCell>
                 <TableCell>
                   <Button component={Link} to={`/patient/${patient.id}`} variant="outlined">
                     <RemoveRedEyeIcon />
                   </Button>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </MainTableBody>
         </MainTable>
 
-        <MainTablePagination
+        
+
+        {/* <MainTablePagination
           itemCount={data?.metadata.totalRows}
           page={data?.metadata.currentPage}
           limit={limit}
@@ -116,7 +123,7 @@ export default function PatientsPage() {
             refetch();
           }}
           
-        />
+        /> */}
       </Box>
     </Box>
   );

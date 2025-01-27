@@ -33,7 +33,7 @@ const getPatients = async ({search, page, status, limit }: PatientFilter): Promi
         params.append('limit', `${limit}`);
     }
 
-    const { data } = await api.get<PatientsResponse>(apiUrl.patient, {
+    const { data } = await api.get<PatientsResponse>(apiUrl.patients, {
         params,
     });
 
@@ -51,7 +51,7 @@ export const usePatients = ({ search, status, limit }: Props) => {
     const [page, setPage] = useState(1);
 
     const patientsQuery = useQuery({
-        queryKey: ['patient', { search, status, page, limit }],
+        queryKey: ['patients', { search, status, page, limit }],
         queryFn: () => getPatients({ search, page, status, limit }),
         staleTime: 1000 * 60,
     });
@@ -69,7 +69,7 @@ export const usePatients = ({ search, status, limit }: Props) => {
 }
 
 const createPatient = async ({ name, rut }: PatientFormValues): Promise<Patient> => {
-    const { data } = await api.post(apiUrl.patient, { name, rut })
+    const { data } = await api.post(apiUrl.patients, { name, rut })
     return data;
 }
 
@@ -93,21 +93,20 @@ export const useCreatePatient = () => {
           toast.error("Ocurrió un error inesperado");
         },
         onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ['patient'] });
+            queryClient.invalidateQueries({ queryKey: ['patients'] });
             queryClient.invalidateQueries({ queryKey: ['systemMetrics'] });
         }
     });
 }
 
 const getPatient = async (id: string): Promise<Patient> => {
-    const { data } = await api.get<Patient>(`${apiUrl.patient}/${id}`);
-    console.log(data);
+    const { data } = await api.get<Patient>(`${apiUrl.patients}/${id}`);
     return data;
 }
 
 export const usePatient = (id: string) => {
     return useQuery({
-        queryKey: ['patient', id],
+        queryKey: ['patients', id],
         queryFn: () => getPatient(id),
         staleTime: 1000 * 60,
     });
