@@ -1,4 +1,4 @@
-import { TankCapacity, TankRequestType, TankStatus } from "../interfaces";
+import { PatientStatus, TankCapacity, TankRequestType, TankStatus } from "../interfaces";
 
 export const tankStatus: { [key in TankStatus]: string } = {
     [TankStatus.DELIVERED]: 'Entregado',
@@ -16,4 +16,9 @@ export const tankCapacity: { [key in TankCapacity]: string } = {
     [TankCapacity.THREE_M3]: '3m3',
     [TankCapacity.SIX_M3]: '6m3',
     [TankCapacity.TEN_M3]: '10m3',
+}
+
+export const patientStatus: { [key in PatientStatus]: string } = {
+    [PatientStatus.ACTIVE]: 'Activo',
+    [PatientStatus.INACTIVE]: 'Inactivo',
 }

@@ -1,39 +1,88 @@
 import {
   Box,
   Button,
-  TableCell,
-  TableRow,
+  IconButton,
   TextField,
   Typography,
 } from "@mui/material";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import PlusIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePatients } from "../services/patient.service";
-import {
-  MainTable,
-  MainTableBody,
-  MainTableHead,
-  MainTablePagination,
-} from "../components/CustomTable";
-import { PatientStatus, Role } from "../interfaces";
-import dayjs from "dayjs";
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { Role } from "../interfaces";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Link } from "react-router-dom";
 import { ProtectiveRoles } from "../components/ProtectiveRoles";
 import { useModalStore } from "../store/useModalStore";
-import { ExpandingRow } from "../components/ExpandingRow";
+import { DataGrid, GridColDef, GridPaginationModel } from "@mui/x-data-grid";
+import { patientStatus } from "../helpers";
 
-const columns = ["ID", "Nombre", "Estado", "Ingreso", "Acciones"];
+const PAGE_SIZE = 5;
+
+const columns: GridColDef[] = [
+  { field: "id", headerName: "ID" },
+  { field: "name", headerName: "Nombre", flex: 1, minWidth: 150 },
+  { field: "rut", headerName: "RUT", flex: 1, minWidth: 150 },
+  {
+    field: "status",
+    headerName: "Estado",
+    minWidth: 150,
+    flex: 1,
+    valueGetter: (value) => `${patientStatus[value]}`,
+  },
+  {
+    field: "actions",
+    flex: 1,
+    minWidth: 150,
+    headerName: "Acciones",
+    renderCell: (params) => (
+      <Link to={`/patients/${params.row.id}`}>
+        <IconButton size="small" aria-label="Ver" color="primary">
+          <RemoveRedEyeIcon />
+        </IconButton>
+      </Link>
+    ),
+  }
+];
 
 export default function PatientsPage() {
-  const [limit, setLimit] = useState(5);
-
-  const { data, isLoading, refetch, handlePageChange } = usePatients({
-    limit: limit,
+  const [paginationModel, setPaginationModel] = useState({
+    page: 0,
+    pageSize: PAGE_SIZE,
   });
 
+  const [search, setSearch] = useState("");
+
+  const queryOptions = useMemo(() => {
+    return {
+      limit: paginationModel.pageSize,
+      page: paginationModel.page + 1,
+    };
+  }, [paginationModel]);
+
+  const { data, isFetching, refetch } = usePatients({ search, ...queryOptions });
+
+  useEffect(() => {
+    
+    const handler = setTimeout(() => {
+      refetch();
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+
+  }, [search, refetch]);
+
+  const handlePaginationChange = (model: GridPaginationModel) => {
+    if (isFetching) return;
+
+    setPaginationModel(model);
+  };
+
   const handleOpen = useModalStore((state) => state.handleOpen);
+
+
 
   return (
     <Box>
@@ -51,70 +100,60 @@ export default function PatientsPage() {
             }}
           >
             <Box sx={{ display: "flex", gap: 2 }}>
-              <TextField label="Buscar" variant="outlined" size="small" />
-              <Button
-                size="small"
-                variant="contained"
-                onClick={() => refetch()}
-                startIcon={<PersonSearchIcon />}
-              >
-                Buscar
-              </Button>
+              <TextField 
+                onChange={(e) => setSearch(e.target.value)}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                          <PersonSearchIcon sx={{ mr: 1 }} />
+                    ),
+                  }
+                }}
+                value={search}
+                label="Buscar" 
+                variant="outlined" 
+                size="small" 
+              />
             </Box>
 
             <ProtectiveRoles roles={[Role.ADMIN, Role.MAINTENANCE]}>
-            <Button
-              onClick={() => handleOpen("add")}
-              size="small"
-              variant="contained"
-              startIcon={<PlusIcon />}
-            >
-              Agregar
-            </Button>
+              <Button
+                onClick={() => handleOpen("add")}
+                size="small"
+                variant="contained"
+                startIcon={<PlusIcon />}
+              >
+                Agregar
+              </Button>
             </ProtectiveRoles>
           </Box>
         </Box>
 
-        <MainTable>
-          <MainTableHead columns={columns} />
+        <div style={{ height: 400, width: "100%", maxWidth: "100%" }}>
+          <DataGrid
+            rows={data?.patients}
+            columns={columns}
+            pagination
+            paginationMode="server"
+            rowCount={data?.metadata.totalItems || 0}
+            pageSizeOptions={[5, 10, 20]}
+            paginationModel={paginationModel}
+            onPaginationModelChange={handlePaginationChange}
+            loading={isFetching}
 
-          <MainTableBody
-            isLoading={isLoading}
-            text="No se encontraron pacientes"
-            colSpan={columns.length}
-            itemsCount={data?.metadata.totalRows}
-          >
-            {data?.patients.map((patient) => (
-              <TableRow key={patient.id}>
-                {/* <TableCell>{patient.id}</TableCell>
-                <TableCell>{patient.rut}</TableCell>
-                <TableCell>{patient.name}</TableCell>
-                <TableCell>
-                  {patient.status === PatientStatus.ACTIVE
-                    ? "Activo"
-                    : "Inactivo"}
-                </TableCell>
-                <TableCell>
-                  {dayjs(patient.createdAt).format("DD/MM/YYYY")}
-                </TableCell>
-                <TableCell>{patient.createdUser.name}</TableCell>
-                <TableCell>
-                  {patient.closedBy ? patient.closedBy : "N/A"}
-                </TableCell>
-                <TableCell>
-                  <Button component={Link} to={`/patient/${patient.id}`} variant="outlined">
-                    <RemoveRedEyeIcon />
-                  </Button>
-                </TableCell> */}
-              </TableRow>
-            ))}
-          </MainTableBody>
-        </MainTable>
+            disableColumnMenu
+            disableColumnSorting
+            disableColumnFilter
+            disableColumnSelector
+            disableDensitySelector
 
-        
+            
+
+          />
+        </div>
 
         {/* <MainTablePagination
-          itemCount={data?.metadata.totalRows}
+          itemCount={data?.metadata.totalItems}
           page={data?.metadata.currentPage}
           limit={limit}
           handleChangeLimit={(value) => setLimit(value)}
