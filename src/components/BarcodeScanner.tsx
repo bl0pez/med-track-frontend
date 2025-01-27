@@ -11,6 +11,7 @@ import { useZxing } from "react-zxing";
 import { useCloseTank, useSearchTankByCode } from "../services/tank.service";
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import { toast } from "react-toastify";
+import { useMediaDevices } from "react-media-devices";
 
 type Action = "barcode" | "manual";
 
@@ -44,9 +45,16 @@ interface ScanProps {
   nextStep: () => void;
 }
 
+const constraints: MediaStreamConstraints = {
+  video: true,
+  audio: false,
+};
+
 function Scan({ result, setResult, nextStep }: ScanProps) {
   const [action, setAction] = useState<Action>("barcode");
   const [paused, setPaused] = useState(false);
+  const { devices } = useMediaDevices({ constraints });
+  const deviceId = devices?.[0]?.deviceId;
 
   async function handleSearch() {
     nextStep();
@@ -54,11 +62,13 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
 
   const { ref } = useZxing({
     onDecodeResult({ getText }) {
-      toast.success("Código de barras escaneado correctamente");
+      toast.success(`Código de barras escaneado: ${getText()}`);
       setResult(getText());
-      handleSearch();
+      setPaused(true);
+      nextStep();
     },
-    paused: paused,
+    paused: !devices,
+    deviceId
   });
 
   useEffect(() => {
@@ -75,7 +85,7 @@ function Scan({ result, setResult, nextStep }: ScanProps) {
     return () => {
       setPaused(true);
     };
-  }, [paused, action]);
+  }, [paused, action, setResult]);
 
   return (
     <Card sx={{ width: 400, minHeight: 350 }}>

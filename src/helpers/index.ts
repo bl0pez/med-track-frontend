@@ -13,7 +13,7 @@ export const tankRequestType: { [key in TankRequestType]: string } = {
 };
 
 export const tankCapacity: { [key in TankCapacity]: string } = {
-    [TankCapacity.SIX_M2]: '6m2',
-    [TankCapacity.TEN_M2]: '10m2',
     [TankCapacity.THREE_M3]: '3m3',
+    [TankCapacity.SIX_M3]: '6m3',
+    [TankCapacity.TEN_M3]: '10m3',
 }

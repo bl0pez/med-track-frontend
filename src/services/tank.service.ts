@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "./api.service";
 import { apiUrl } from "../config/routes.config";
-import { SearchTankByCodeResponse, Tank, TanksSearchResponse } from "../interfaces";
+import { SearchTankByCodeResponse, Tank, TankRegisterFormValues, TanksSearchResponse } from "../interfaces";
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
 import { useModalStore } from "../store/useModalStore";
@@ -65,6 +65,36 @@ export const useCloseTank = () => {
             }
 
             toast.error('Ocurrió un error al cerrar el tanque');
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['patient'] });
+            queryClient.invalidateQueries({ queryKey: ['searchTanks'] });
+            queryClient.invalidateQueries({ queryKey: ['systemMetrics'] });
+        }
+    })
+}
+
+const createTank = async (data: TankRegisterFormValues) => {
+    return await api.post<Tank>(apiUrl.tank, data);
+}
+
+export const useCreateTank = () => {
+    const queryClient = useQueryClient();
+    const handleClose = useModalStore((state) => state.handleClose);
+
+    return useMutation({
+        mutationFn: (data: TankRegisterFormValues) => createTank(data),
+        mutationKey: ['createTank'],
+        onSuccess: () => {
+            toast.success('Tanque creado correctamente');
+            handleClose();
+        },
+        onError: (error) => {
+            if (isAxiosError(error)) {
+                return toast.error(error.response?.data.message);
+            }
+
+            toast.error('Ocurrió un error al crear el tanque');
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['patient'] });
