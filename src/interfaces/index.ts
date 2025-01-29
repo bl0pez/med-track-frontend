@@ -1,25 +1,7 @@
 export enum Role {
     ADMIN = 'ADMIN',
     USER = 'USER',
-    MAINTENANCE = 'MAINTENANCE', 
-}
-
-export enum TankStatus {
-    DELIVERED = 'DELIVERED',
-    RETURNED = 'RETURNED',
-    RECHARGE = 'RECHARGE',
-}
-
-export enum TankCapacity {
-    SIX_M3 = "SIX_M3",
-    TEN_M3 = "TEN_M3",
-    THREE_M3 = "THREE_M3",
-}
-
-export enum TankRequestType {
-    PATIENT = "PATIENT",
-    SERVICE = "SERVICE",
-    EXTERNAL = "EXTERNAL",
+    OPERATOR = 'OPERATOR',
 }
 
 export interface User {
@@ -36,45 +18,15 @@ export interface LoginFormValues {
     password: string
 }
 
-export interface TankRegisterFormValues {
-    number_tank?: string;
-    request_type: TankRequestType;
-    capacity: TankCapacity;
-    status: TankStatus;
-    patient_id?: number | null;
-    service_id?: number | null;
-    external_id?: number | null;       
-}
-
 export interface LoginResponse {
     user: User
     token: string
-}
-
-export interface TanksSearchResponse {
-    tanks: Tank[];
-    metadata: Metadata
 }
 
 export interface PatientFormValues {
     name: string
     rut: string    
 }
-export interface Tank {
-    id:           number;
-    number_tank:  string;
-    request_type: TankRequestType;
-    capacity:     TankCapacity;
-    status:       TankStatus;
-    patient_id:   number | null;
-    service_id:   number | null;    
-    external_id:  number | null;
-    deliveredAt:  Date;
-    returnedAt:   Date | null;
-    createdAt:    Date;
-    updatedAt:    Date;
-}
-
 
 export enum PatientStatus {
     ACTIVE = 'ACTIVE',
@@ -88,7 +40,6 @@ export interface Patient {
     status:    PatientStatus;
     createdAt: Date;
     updatedAt: Date;
-    tanks?:     Tank[];
 }
 
 export interface Metadata {
@@ -165,4 +116,32 @@ export interface Metadata {
     totalItems:         number;
     nextPage:           null | number;
     prevPage:           null | number;
+}
+
+// =================================
+// CYLINDERS
+// =================================
+export interface CylindersResponse {
+    cylinders: Cylinder[];
+    metadata:  Metadata;
+}
+export interface Cylinder {
+    id:           number;
+    serialNumber: string;
+    capacity:     CylinderCapacity;
+    status:       CylinderStatus;
+    createdAt:    Date;
+    updatedAt:    Date;
+}
+
+export enum CylinderCapacity {
+    SIX_M3 = "SIX_M3",
+    TEN_M3 = "TEN_M3",
+    THREE_M3 = "THREE_M3",
+}
+
+export enum CylinderStatus {
+    IN_STOCK = 'IN_STOCK',
+    DELIVERED = 'DELIVERED',
+    RETURNED = 'RETURNED',
 }

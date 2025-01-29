@@ -4,6 +4,7 @@ import AppLayout from '../layouts/app.layout'
 import PatientsPage from '../pages/Patients'
 import PatientPage from '../pages/Patient'
 import DashboardPage from '../pages/Dashboard'
+import CylindersPage from '../pages/Cylinders'
 
 export default function AppRoutes() {
   return (
@@ -14,6 +15,7 @@ export default function AppRoutes() {
             <Route path='/' element={<DashboardPage />} />
             <Route path="/patients" element={<PatientsPage />} />
             <Route path="/patients/:id" element={<PatientPage />} />
+            <Route path='/cylinders' element={<CylindersPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
         </Routes>

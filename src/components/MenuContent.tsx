@@ -5,10 +5,12 @@ import { routes } from '../config/routes.config';
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
 import { useAuthStore } from '../store/useAuthStore';
 import { Link } from 'react-router-dom';
+import PropaneTankIcon from '@mui/icons-material/PropaneTank';
 
 const menu = [
     { text: 'Dashboard', icon: <DashboardIcon />, roles: [], path: routes.dashboard },
     { text: 'Pacientes', icon: <GroupsIcon />, roles: [], path: routes.patients },
+    { text: 'Cilindros', icon: <PropaneTankIcon />, roles: [], path: routes.cylinders },
 ];
 
 export default function MenuContent() {
