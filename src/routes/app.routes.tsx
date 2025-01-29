@@ -13,7 +13,7 @@ export default function AppRoutes() {
           <Route path="/" element={<AppLayout />}>
             <Route path='/' element={<DashboardPage />} />
             <Route path="/patients" element={<PatientsPage />} />
-            <Route path="/patient/:id" element={<PatientPage />} />
+            <Route path="/patients/:id" element={<PatientPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Route>
         </Routes>
