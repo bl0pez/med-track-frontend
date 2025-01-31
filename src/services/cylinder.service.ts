@@ -1,7 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiUrl } from "../config/routes.config";
-import { CylindersResponse } from "../interfaces";
+import { CylinderFormValues, CylindersResponse } from "../interfaces";
 import { api } from "./api.service";
+import { toast } from "react-toastify";
+import { isAxiosError } from "axios";
 
 export interface CylinderFilter {
     search?: string;
@@ -35,6 +37,10 @@ const cylinders = {
         });
 
         return data;
+    },
+    create: async (values: CylinderFormValues) => {
+        const { data } = await api.post<CylinderFormValues>(apiUrl.cylinders, values);
+        return data;
     }
 }
 
@@ -43,4 +49,30 @@ export const useCylinders = (cylinderFilter: CylinderFilter) => {
         queryKey: [apiUrl.cylinders, cylinderFilter],
         queryFn: () => cylinders.findAll(cylinderFilter),
     });
+}
+
+export const useCreateCylinder = () => {
+
+    const queryClient = useQueryClient();
+
+    return useMutation<CylinderFormValues, Error, CylinderFormValues>({
+        mutationFn: cylinders.create,
+        mutationKey: [apiUrl.cylinders],
+        onSuccess: () => {
+            toast.success("Cilindro agregado correctamente");
+        },
+        onError: (error) => {
+                  if (isAxiosError(error)) {
+                    return toast.error(error.response?.data.message);
+                  }
+            
+                  toast.error("Ocurrió un error inesperado")
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: [apiUrl.cylinders] });
+            queryClient.invalidateQueries({ queryKey: [apiUrl.systemMetrics] });
+            queryClient.invalidateQueries({ queryKey: [apiUrl.patients ]});
+        }
+
+    })
 }

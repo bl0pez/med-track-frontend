@@ -25,7 +25,6 @@ import { MainTable, MainTableBody, MainTableHead, MainTablePagination } from "..
 import { useModalStore } from "../store/useModalStore";
 import { useSearchTanks } from "../services/tank.service";
 import { useEffect, useState } from "react";
-import { tankCapacity, tankStatus } from "../helpers";
 
 const columns = ["N° Tanque", "Creación", "Devolución", "status", "Capacidad"];
 
@@ -102,7 +101,7 @@ export default function PatientPage() {
               <TextField label="Buscar" variant="outlined" size="small" onChange={(e) => setSearch(e.target.value)} />
             </Box>
 
-            <ProtectiveRoles roles={[Role.ADMIN, Role.MAINTENANCE]}>
+            {/* <ProtectiveRoles roles={[Role.ADMIN, Role.MAINTENANCE]}>
             <Button
               onClick={() => {
                 handleOpen("createTank", data.id)}
@@ -113,14 +112,14 @@ export default function PatientPage() {
             >
               Agregar
             </Button>
-            </ProtectiveRoles>
+            </ProtectiveRoles> */}
           </Box>
         </Box>
 
         <MainTable>
           <MainTableHead columns={columns} />
 
-          <MainTableBody
+          {/* <MainTableBody
             isLoading={isTanksLoafing}
             text="No se encontraron pacientes"
             colSpan={columns.length}
@@ -139,7 +138,7 @@ export default function PatientPage() {
               ))
               : null
             }
-          </MainTableBody>
+          </MainTableBody> */}
         </MainTable>
 
         <MainTablePagination

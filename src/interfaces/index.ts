@@ -121,6 +121,11 @@ export interface Metadata {
 // =================================
 // CYLINDERS
 // =================================
+
+export interface CylinderFormValues {
+    serialNumber: string
+    capacity: CylinderCapacity
+}
 export interface CylindersResponse {
     cylinders: Cylinder[];
     metadata:  Metadata;

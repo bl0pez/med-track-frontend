@@ -105,7 +105,7 @@ export default function CylindersPage() {
 
             <ProtectiveRoles roles={[Role.ADMIN, Role.OPERATOR]}>
               <Button
-                onClick={() => handleOpen("add")}
+                onClick={() => handleOpen("addCylinder")}
                 size="small"
                 variant="contained"
                 startIcon={<PlusIcon />}

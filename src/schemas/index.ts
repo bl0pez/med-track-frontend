@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { TankCapacity, TankRequestType, TankStatus } from "../interfaces";
+import { CylinderCapacity } from "../interfaces";
 
 export const loginSchema = yup.object().shape({
   password: yup
@@ -25,32 +25,37 @@ export const patientSchema = yup.object().shape({
     .required("El rut es requerido"),
 });
 
-export const tankPatientSchema = yup.object().shape({
-  number_tank: yup.string().when("capacity", ([capacity], schama) => {
-    return capacity === TankCapacity.THREE_M3
-      ? schama.notRequired()
-      : schama
-          .required("El número de cilindro es requerido")
-          .min(3)
-          .required("El número de cilindro es requerido");
-  }),
-  request_type: yup
-    .mixed<TankRequestType>()
-    .oneOf(Object.values(TankRequestType))
-    .required("El tipo de solicitud es requerido"),
-  capacity: yup
-    .mixed<TankCapacity>()
-    .oneOf(Object.values(TankCapacity))
-    .required("La capacidad es requerida"),
-  status: yup.mixed<TankStatus>().when("capacity", ([capacity], schema) => {
-    return capacity === TankCapacity.THREE_M3
-      ? schema
-          .oneOf([TankStatus.RECHARGE], "Solo puede ser recargado")
-      : schema
-          .oneOf(
-            [TankStatus.DELIVERED, TankStatus.RETURNED],
-            "Solo puede ser entregado o devuelto"
-          )
-  }).required("El estado es requerido"),
-  patient_id: yup.number().nullable(),
-});
+export const cylinderSchema = yup.object().shape({
+  serialNumber: yup.string().required("El número de serie es requerido"),
+  capacity: yup.mixed<CylinderCapacity>().oneOf(Object.values(CylinderCapacity)).required("La capacidad es requerida"),
+})
+
+// export const tankPatientSchema = yup.object().shape({
+//   number_tank: yup.string().when("capacity", ([capacity], schama) => {
+//     return capacity === TankCapacity.THREE_M3
+//       ? schama.notRequired()
+//       : schama
+//           .required("El número de cilindro es requerido")
+//           .min(3)
+//           .required("El número de cilindro es requerido");
+//   }),
+//   request_type: yup
+//     .mixed<TankRequestType>()
+//     .oneOf(Object.values(TankRequestType))
+//     .required("El tipo de solicitud es requerido"),
+//   capacity: yup
+//     .mixed<TankCapacity>()
+//     .oneOf(Object.values(TankCapacity))
+//     .required("La capacidad es requerida"),
+//   status: yup.mixed<TankStatus>().when("capacity", ([capacity], schema) => {
+//     return capacity === TankCapacity.THREE_M3
+//       ? schema
+//           .oneOf([TankStatus.RECHARGE], "Solo puede ser recargado")
+//       : schema
+//           .oneOf(
+//             [TankStatus.DELIVERED, TankStatus.RETURNED],
+//             "Solo puede ser entregado o devuelto"
+//           )
+//   }).required("El estado es requerido"),
+//   patient_id: yup.number().nullable(),
+// });
