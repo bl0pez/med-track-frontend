@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiUrl } from "../config/routes.config";
-import { CylinderFormValues, CylindersResponse } from "../interfaces";
+import { CylinderFormValues, CylindersResponse, CylinderTransactionFormValues } from "../interfaces";
 import { api } from "./api.service";
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
@@ -74,5 +74,37 @@ export const useCreateCylinder = () => {
             queryClient.invalidateQueries({ queryKey: [apiUrl.patients ]});
         }
 
+    })
+}
+
+
+const cylinder_transaction = {
+    create: async (values: CylinderTransactionFormValues) => {
+        const { data } = await api.post(apiUrl.cylinderTransaction, values);
+        return data;
+    }
+}
+
+export const useCreateCylinderTransaction = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: cylinder_transaction.create,
+        mutationKey: [apiUrl.cylinderTransaction],
+        onSuccess: () => {
+            toast.success("Cilindro agregado correctamente");
+        },
+        onError: (error) => {
+            if (isAxiosError(error)) {
+                return toast.error(error.response?.data.message);
+            }
+
+            toast.error("Ocurrió un error inesperado");
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: [apiUrl.cylinders] });
+            queryClient.invalidateQueries({ queryKey: [apiUrl.systemMetrics] });
+            queryClient.invalidateQueries({ queryKey: [apiUrl.patients] });
+        }
     })
 }

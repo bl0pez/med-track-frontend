@@ -7,8 +7,6 @@ import {
   Card,
   CardContent,
   SvgIconProps,
-  TableCell,
-  TableRow,
   TextField,
   Typography,
 } from "@mui/material";
@@ -21,12 +19,11 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Grid from "@mui/material/Grid2";
 import { ProtectiveRoles } from "../components/ProtectiveRoles";
-import { MainTable, MainTableBody, MainTableHead, MainTablePagination } from "../components/CustomTable";
 import { useModalStore } from "../store/useModalStore";
-import { useSearchTanks } from "../services/tank.service";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import PlusIcon from "@mui/icons-material/Add";
 
-const columns = ["N° Tanque", "Creación", "Devolución", "status", "Capacidad"];
+// const columns = ["N° Tanque", "Creación", "Devolución", "status", "Capacidad"];
 
 export default function PatientPage() {
   const { id } = useParams();
@@ -36,11 +33,7 @@ export default function PatientPage() {
   const [limit, setLimit] = useState(5);
 
   const { data, isLoading, error } = usePatient(id!);
-  const { data: tanks, isLoading: isTanksLoafing, refetch } = useSearchTanks(search, "patient", Number(id));
 
-  useEffect(() => {
-    refetch();
-  }, [search, refetch]);
 
   if (isLoading) {
     return <Spinner />;
@@ -101,53 +94,22 @@ export default function PatientPage() {
               <TextField label="Buscar" variant="outlined" size="small" onChange={(e) => setSearch(e.target.value)} />
             </Box>
 
-            {/* <ProtectiveRoles roles={[Role.ADMIN, Role.MAINTENANCE]}>
+            <ProtectiveRoles roles={[Role.ADMIN, Role.OPERATOR]}>
             <Button
               onClick={() => {
-                handleOpen("createTank", data.id)}
-              }
+                // handleOpen("createTank", data.id)}
+              }}
               size="small"
               variant="contained"
-              // startIcon={<PlusIcon />}
+              startIcon={<PlusIcon />}
             >
               Agregar
             </Button>
-            </ProtectiveRoles> */}
+            </ProtectiveRoles>
           </Box>
         </Box>
 
-        <MainTable>
-          <MainTableHead columns={columns} />
-
-          {/* <MainTableBody
-            isLoading={isTanksLoafing}
-            text="No se encontraron pacientes"
-            colSpan={columns.length}
-            itemsCount={tanks?.metadata.totalRows}
-          >
-            {
-              tanks
-              ? tanks.tanks.map((tank) => (
-                <TableRow key={tank.id}>
-                  <TableCell>{tank.number_tank}</TableCell>
-                  <TableCell>{dayjs(tank.createdAt).format("DD/MM/YYYY HH:mm")}</TableCell>
-                  <TableCell>{tank.returnedAt ? dayjs(tank.returnedAt).format("DD/MM/YYYY HH:mm") : "-"}</TableCell>
-                  <TableCell>{tankStatus[tank.status]}</TableCell>
-                  <TableCell>{tankCapacity[tank.capacity]}</TableCell>
-                </TableRow>
-              ))
-              : null
-            }
-          </MainTableBody> */}
-        </MainTable>
-
-        <MainTablePagination
-          itemCount={tanks?.metadata.totalRows}
-          page={tanks?.metadata.currentPage}
-          limit={limit}
-          handleChangeLimit={(value) => setLimit(value)}
-          handleChangePage={() => {}}
-        />
+        
       </Box>
     </>
   );

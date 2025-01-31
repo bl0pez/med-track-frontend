@@ -150,3 +150,22 @@ export enum CylinderStatus {
     DELIVERED = 'DELIVERED',
     RETURNED = 'RETURNED',
 }
+
+// =================================
+// CYLINDERS END
+// =================================
+
+// =================================
+// CYLINDER TRANSACTION
+// =================================
+export enum RequestType {
+    AMBULANCE = 'AMBULANCE',
+    EXTERNAL = 'EXTERNAL',
+    SERVICE = 'SERVICE',
+    PATIENT = 'PATIENT',
+}
+export interface CylinderTransactionFormValues {
+    serialNumber: string
+    requestType: RequestType
+    recipientId: number
+}

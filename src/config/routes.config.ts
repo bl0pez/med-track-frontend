@@ -1,7 +1,7 @@
 export const apiUrl = {
     login: '/auth/login',
     patients: '/patients',
-    tank: '/tank',
+    cylinderTransaction: '/cylinder-transaction',
     searchTank: '/tank/search',
     searchTankByCode: '/tank/code',
     refreshToken: '/auth/refresh-token',
